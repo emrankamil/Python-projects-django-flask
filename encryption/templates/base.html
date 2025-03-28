@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Sidebar App</title>
+    <style>
+        body {
+            background-color: #EFEFEF;
+            color: black;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: black;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar button {
+            background: none;
+            border: none;
+            color: #D8D9DA;
+            padding: 15px;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .sidebar button:hover {
+            background-color: #61677A;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #EFEFEF;
+            padding: 100px 100px 100px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <button onclick="loadContent('otp')">OTP</button>
+        <button onclick="loadContent('aes')">AES</button>
+        <button onclick="loadContent('3des')">3DES</button>
+    </div>
+
+    <div class="content" id="main-content">
+        {% include 'otp.html' %} <!-- Default content -->
+    </div>
+
+    <script>
+        function loadContent(option) {
+            fetch(`/${option}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("main-content").innerHTML = html;
+                });
+        }
+
+        
+        function AESencryptText() {
+            let plainText = document.getElementById("encrypt-plain-text").value;
+            let secretKey = document.getElementById("encrypt-secret-key").value;
+            console.log('aes called')
+            if (plainText.length === 0) {
+                alert("Please enter some text to encrypt.");
+                return;
+            }
+            if (secretKey.length < 16) {
+                alert("Secret key must be at least 16 characters long.");
+                return;
+            }
+
+            fetch("/aes_encrypt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({plain_text: plainText, secret_key: secretKey })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("encrypt-output").innerText = data.encrypted_text;
+            })
+            .catch(error => console.error("Error:", error));
+        }   
+
+        function AESdecryptText() {
+            let encrypted_text = document.getElementById("decrypt-plain-text").value;
+            let secretKey = document.getElementById("decrypt-secret-key").value;
+            if (encrypted_text.length === 0) {
+                alert("Please enter some text to decrypt.");
+                return;
+            }
+            if (secretKey.length < 16) {
+                alert("Secret key must be at least 16 characters long.");
+                return;
+            }
+
+            fetch("/aes_decrypt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({encrypted_text: encrypted_text, secret_key: secretKey })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("decrypt-output").innerText = data.decrypted_text;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function OTPencryptText() {
+            let plainText = document.getElementById("encrypt-plain-text").value;
+            let secretKey = document.getElementById("encrypt-secret-key").value;
+            console.log('OTP CALLED')
+            if (plainText.length === 0) {
+                alert("Please enter some text to encrypt.");
+                return;
+            }
+            if (secretKey.length < plainText.length) {
+                alert("The key must be at least as long as the plain text..");
+                return;
+            }
+
+            fetch("/otp_encrypt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ plain_text: plainText, secret_key: secretKey })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("encrypt-output").innerText = data.encrypted_text;
+                })
+                .catch(error => console.error("Error:", error));
+        }
+
+        function OTPdecryptText() {
+            let encrypted_text = document.getElementById("decrypt-plain-text").value;
+            let secretKey = document.getElementById("decrypt-secret-key").value;
+            if (encrypted_text.length === 0) {
+                alert("Please enter some text to decrypt.");
+                return;
+            }
+
+            fetch("/otp_decrypt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ encrypted_text: encrypted_text, secret_key: secretKey })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("decrypt-output").innerText = data.decrypted_text;
+                })
+                .catch(error => console.error("Error:", error));
+        }
+        
+        function DES3encryptText() {
+            console.log('yaaaa')
+            let plainText = document.getElementById("encrypt-plain-text").value;
+            let secretKey = document.getElementById("encrypt-secret-key").value;
+            if (plainText.length === 0) {
+                alert("Please enter some text to encrypt.");
+                return;
+            }
+            if (secretKey.length < 16) {
+                alert("Secret key must be at least 16 characters long.");
+                return;
+            }
+            fetch("/3des_encrypt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ plain_text: plainText, secret_key: secretKey })
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    document.getElementById("encrypt-output").innerText = data.encrypted_text;
+                })
+                .catch(error => console.error("Error:", error));
+            console.log('yaaaa')
+
+        }
+
+        function DES3decryptText() {
+            let encrypted_text = document.getElementById("decrypt-plain-text").value;
+            let secretKey = document.getElementById("decrypt-secret-key").value;
+            if (encrypted_text.length === 0) {
+                alert("Please enter some text to decrypt.");
+                return;
+            }
+            if (secretKey.length < 16) {
+                alert("Secret key must be at least 16 characters long.");
+                return;
+            }
+
+            fetch("/3des_decrypt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ encrypted_text: encrypted_text, secret_key: secretKey })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("decrypt-output").innerText = data.decrypted_text;
+                })
+                .catch(error => console.error("Error:", error));
+        }
+    </script>
+
+</body>
+
+</html>

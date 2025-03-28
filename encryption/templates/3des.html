@@ -1,0 +1,56 @@
+<div style="display: flex; justify-content: space-between; gap: 100px;">
+    <!-- OTP Encryption Section -->
+    <div style="width: 48%; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+        <h2>3DES ENCRYPTION</h2>
+        <div style="padding: 5px">
+            <label for="encrypt-plain-text">Enter Plain Text to Encrypt:</label>
+            <textarea id="encrypt-plain-text"
+                style="width: 100%; height: 100px; margin-bottom: 10px; font-size: 16px; resize: none;"></textarea>
+
+            <label for="encrypt-secret-key">Enter Secret Key (min length 16):</label>
+            <input type="text" id="encrypt-secret-key"
+                style="width: 100%;height: 50px; margin-bottom: 10px; font-size: 16px;" />
+
+            <button onclick="DES3encryptText()"
+                style="width: fit-content; margin-bottom: 10px; background: black; padding: 1px 20px; transition: background-color 0.3s, transform 0.3s;"
+                onmouseover="this.style.backgroundColor='#444343'; " onmouseout="this.style.backgroundColor='black';">
+                <h3 style="color: white;">Encrypt</h3>
+            </button>
+
+            <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <strong>3DES Encrypted Output:</strong>
+                <div id="encrypt-output"
+                    style="margin-top: 5px; height: 50px; word-wrap: break-word; overflow-wrap: break-word;">[Output
+                    will appear here]</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- OTP Decryption Section -->
+    <div style="width: 48%; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+        <h2>3DES DECRYPTION</h2>
+        <div style="padding: 5px">
+            <label for="decrypt-plain-text">Enter Plain Text to Decrypt:</label>
+            <textarea id="decrypt-plain-text"
+                style="width: 100%; height: 100px; margin-bottom: 10px; font-size: 16px; resize: none;"></textarea>
+
+            <label for="decrypt-secret-key">Enter Secret Key (min length 16):</label>
+            <input type="text" id="decrypt-secret-key"
+                style="width: 100%;height: 50px; margin-bottom: 10px; font-size: 16px;" />
+
+            <button onclick="DES3decryptText()"
+                style="width: fit-content; margin-bottom: 10px; background: black; padding: 1px 20px; transition: background-color 0.3s, transform 0.3s;"
+                onmouseover="this.style.backgroundColor='#444343'; " onmouseout="this.style.backgroundColor='black';">
+                <h3 style="color: white;">Decrypt</h3>
+            </button>
+
+            <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <strong>3DES Decrypted Output:</strong>
+                <div id="decrypt-output"
+                    style="margin-top: 5px; height: 50px; word-wrap: break-word; overflow-wrap: break-word;">[Output
+                    will appear here]</div>
+            </div>
+        </div>
+    </div>
+</div>
