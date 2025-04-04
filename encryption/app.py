@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify
 from aes_logics import decrypt_aes, encrypt_aes
 from des3_logics import decrypt_3des, encrypt_3des
 from otp_logics import decrypt_otp, encrypt_otp
+from rsa_logics import encrypt_rsa, decrypt_rsa
 
 
 app = Flask(__name__)
@@ -26,6 +27,11 @@ def aes():
 @app.route("/3des")
 def des():
     return render_template("3des.html")
+
+
+@app.route("/rsa")
+def rsa():
+    return render_template("rsa.html")
 
 
 # OTP routes
@@ -89,6 +95,25 @@ def des3_decrypt():
     secret_key = data.get("secret_key", "")
 
     decrypted_text = decrypt_3des(encrypted_text, secret_key)
+    return jsonify({"decrypted_text": decrypted_text})
+
+
+# RSA routes
+@app.route("/rsa_encrypt", methods=["POST"])
+def rsa_encrypt():
+    data = request.get_json()
+    plain_text = data.get("plain_text", "")
+
+    encrypted_text = encrypt_rsa(plain_text)
+    return jsonify({"encrypted_text": encrypted_text})
+
+
+@app.route("/rsa_decrypt", methods=["POST"])
+def rsa_decrypt():
+    data = request.get_json()
+    encrypted_text = data.get("encrypted_text", "")
+
+    decrypted_text = decrypt_rsa(encrypted_text)
     return jsonify({"decrypted_text": decrypted_text})
 
 

@@ -55,6 +55,7 @@
         <button onclick="loadContent('otp')">OTP</button>
         <button onclick="loadContent('aes')">AES</button>
         <button onclick="loadContent('3des')">3DES</button>
+        <button onclick="loadContent('rsa')">RSA</button>
     </div>
 
     <div class="content" id="main-content">
@@ -74,7 +75,6 @@
         function AESencryptText() {
             let plainText = document.getElementById("encrypt-plain-text").value;
             let secretKey = document.getElementById("encrypt-secret-key").value;
-            console.log('aes called')
             if (plainText.length === 0) {
                 alert("Please enter some text to encrypt.");
                 return;
@@ -220,6 +220,49 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ encrypted_text: encrypted_text, secret_key: secretKey })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("decrypt-output").innerText = data.decrypted_text;
+                })
+                .catch(error => console.error("Error:", error));
+        }
+
+        function RSAencryptText() {
+            let plainText = document.getElementById("encrypt-plain-text").value;
+            // if (plainText.length === 0) {
+            //     alert("Please enter some text to encrypt.");
+            //     return;
+            // }
+
+            fetch("/rsa_encrypt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ plain_text: plainText })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("encrypt-output").innerText = data.encrypted_text;
+                })
+                .catch(error => console.error("Error:", error));
+        }
+
+        function RSAdecryptText() {
+            let encrypted_text = document.getElementById("decrypt-plain-text").value;
+            // if (encrypted_text.length === 0) {
+            //     alert("Please enter some text to decrypt.");
+            //     return;
+            // }
+            
+
+            fetch("/rsa_decrypt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ encrypted_text: encrypted_text })
             })
                 .then(response => response.json())
                 .then(data => {

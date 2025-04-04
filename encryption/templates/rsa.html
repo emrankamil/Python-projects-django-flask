@@ -1,0 +1,49 @@
+<div style="display: flex; justify-content: space-between; gap: 100px;">
+
+    <!-- RSA ENCRYPTION -->
+    <div style="width: 48%; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+        <h2>RSA ENCRYPTION</h2>
+        <div style="padding: 5px">
+            <label for="encrypt-plain-text">Enter Plain Text to Encrypt:</label>
+            <textarea id="encrypt-plain-text"
+                style="width: 100%; height: 100px; margin-bottom: 10px; font-size: 16px; resize: none;"></textarea>
+            <button onclick="RSAencryptText()"
+                style="width: fit-content; margin-bottom: 10px; background: black; padding: 1px 20px; transition: background-color 0.3s, transform 0.3s;"
+                onmouseover="this.style.backgroundColor='#444343';" onmouseout="this.style.backgroundColor='black';">
+                <h3 style="color: white;">Encrypt</h3>
+            </button>
+
+            <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <strong>RSA Encrypted Output:</strong>
+                <div id="encrypt-output"
+                    style="margin-top: 5px; height: auto; word-break: break-all; white-space: pre-wrap; overflow-wrap: break-word;">
+                    [Output will appear here]
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RSA DECRYPTION -->
+    <div style="width: 48%; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+        <h2>RSA DECRYPTION</h2>
+        <div style="padding: 5px">
+            <label for="decrypt-plain-text">Enter Plain Text to Decrypt:</label>
+            <textarea id="decrypt-plain-text"
+                style="width: 100%; height: 100px; margin-bottom: 10px; font-size: 16px; resize: none;"></textarea>
+            <button onclick="RSAdecryptText()"
+                style="width: fit-content; margin-bottom: 10px; background: black; padding: 1px 20px; transition: background-color 0.3s, transform 0.3s;"
+                onmouseover="this.style.backgroundColor='#444343';" onmouseout="this.style.backgroundColor='black';">
+                <h3 style="color: white;">Decrypt</h3>
+            </button>
+
+            <div style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <strong>RSA Decrypted Output:</strong>
+                <div id="decrypt-output"
+                    style="margin-top: 5px; height: auto; word-break: break-all; white-space: pre-wrap; overflow-wrap: break-word;">
+                    [Output will appear here]
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
