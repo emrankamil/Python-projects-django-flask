@@ -1,9 +1,7 @@
-from flask import Flask, request, jsonify
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import serialization, hashes
 import base64
 
-app = Flask(__name__)
 
 # Load RSA Keys
 with open("private_key.pem", "rb") as f:
@@ -38,8 +36,4 @@ def decrypt_rsa(encrypted_text):
         )
         return decrypted.decode()
     except Exception as e:
-        return jsonify({"error": str(e)}), 400
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
+        return str(e)
